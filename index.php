@@ -1,14 +1,8 @@
 <?php 
   $data           = file_get_contents('data-1.json');
   $publicaciones  = json_decode($data, true);
-
-  if (isset($_GET['error'])) {
-    $error = $_GET['error'];
-    if($error == 'faltan_valores'){
-        echo '<strong style="color:red">introduce todos los datos en todos los campos del formulario</strong>';
-    }
-}
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +17,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Formulario</title>
 </head>
-
 <body>
   <video src="img/video.mp4" id="vidFondo"></video>
 
@@ -131,30 +124,30 @@
                       array_filter($array,"filtro");
                   } 
                   // print_r($array);
-                  foreach ($array as $arrays) {
+                  foreach ($array as $clave => $arrays) {
                     echo "<ul id='".$arrays['Id']."'>
-                            <img src='./img/home.jpg' style='width: 20rem;'>;
+                            <img src='./img/home.jpg' style='width: 20rem;'>
                             <li>Direccion: "    .$arrays['Direccion']."</li>
                             <li>Ciudad: "       .$arrays['Ciudad']."</li>
                             <li>Telefono: "     .$arrays['Telefono']."</li>
                             <li>Codigo Postal: ".$arrays['Codigo_Postal']."</li>
                             <li>Tipo: "         .$arrays['Tipo']."</li>
                             <li>Precio: "       .$arrays['Precio']."</li>
-                            <a href='#'><button>Guardar</button></a>
+                            <a href='./controllers/CtlBien.php?action=".$action = "save"."&clave=".$clave."'><button>Guardar</button></a>
                           </ul>
                           <hr>";
                   }
                 }else{
-                  foreach ($publicaciones as $publicacion) {
+                  foreach ($publicaciones as $clave => $publicacion) {
                     echo "<ul id='".$publicacion['Id']."'>
-                            <img src='./img/home.jpg' style='width: 20rem;'>;
-                            <li>Direccion: "    .$publicacion['Direccion']."</li>
-                            <li>Ciudad: "       .$publicacion['Ciudad']."</li>
-                            <li>Telefono: "     .$publicacion['Telefono']."</li>
-                            <li>Codigo Postal: ".$publicacion['Codigo_Postal']."</li>
-                            <li>Tipo: "         .$publicacion['Tipo']."</li>
-                            <li>Precio: "       .$publicacion['Precio']."</li>
-                            <a href='#'><button>Guardar</button></a>
+                            <img src='./img/home.jpg' style='width: 20rem;'>
+                            <li>Direccion:".$publicacion['Direccion']."</li>
+                            <li>Ciudad:".$publicacion['Ciudad']."</li>
+                            <li>Telefono:".$publicacion['Telefono']."</li>
+                            <li>Codigo Postal:".$publicacion['Codigo_Postal']."</li>
+                            <li>Tipo:".$publicacion['Tipo']."</li>
+                            <li>Precio:".$publicacion['Precio']."</li>
+                            <a href='./controllers/CtlBien.php?action=".$action = "save"."&clave=".$clave."'><button>Guardar</button></a>
                           </ul>
                           <hr>";
                   }
@@ -168,7 +161,11 @@
         <div class="colContenido" id="divBienesGuardados">
           <div class="tituloContenido card" style="justify-content: center;">
             <h5>Bienes guardados:</h5>
-            
+              <?php 
+                require './views/bienesGuardados.php';
+                $p = new bienesGuardados();
+                $p->ListAll();
+              ?>
             <div class="divider"></div>
           </div>
         </div>
